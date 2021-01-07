@@ -6,4 +6,5 @@ secret.auto.tfvars
 
 
 //Ignore terraform config files
-.terraform/
+.terraform/*
+!.terraform/modules/

@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"instance","Source":"git@github.com:terraform-aws-modules/terraform-aws-ec2-instance.git","Dir":".terraform/modules/instance"},{"Key":"storage","Source":"./modules/storage","Dir":"modules/storage"},{"Key":"subnet","Source":"./modules/subnet","Dir":"modules/subnet"},{"Key":"vpc","Source":"./modules/vpc","Dir":"modules/vpc"}]}

@@ -1,0 +1,3 @@
+[submodule ".terraform/modules/instance"]
+	path = .terraform/modules/instance
+	url = git@github.com:terraform-aws-modules/terraform-aws-ec2-instance.git
