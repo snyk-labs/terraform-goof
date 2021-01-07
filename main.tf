@@ -23,6 +23,27 @@ module "vpc" {
   source = "./modules/vpc"
 }
 
+module "subnet"  {
+  source = "./modules/subnet"
+  vpc_id = module.vpc.vpc_id
+}
+
 module "storage" {
   source = "./modules/storage"
+}
+
+module "instance" {
+  source = "git@github.com:terraform-aws-modules/terraform-aws-ec2-instance.git"
+  ami = var.ami
+  instance_type = "t2.micro"
+  name = "example-server"
+  instance_count         = 1
+
+  vpc_security_group_ids = [module.vpc.vpc_sg_id]
+  subnet_id              = module.subnet.subnet_id
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
 }
