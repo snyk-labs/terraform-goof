@@ -1,0 +1,5 @@
+//Ignoring Secrets
+secret.auto.tfvars
+
+//Ignore IDE files
+.idea/
