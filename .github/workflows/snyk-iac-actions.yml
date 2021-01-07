@@ -5,13 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run Snyk to check terraform configuration files for issues
+    - name: Run Snyk to check Kubernetes manifest file for issues
       continue-on-error: true
       uses: snyk/actions/iac@master
-      with:
-        output: snyk.sarif
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        file: your/main.tf
     - uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: snyk.sarif
