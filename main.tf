@@ -30,6 +30,13 @@ module "subnet"  {
 
 module "storage" {
   source = "./modules/storage"
+
+  acl = var.s3_acl
+  db_password = "supersecret"
+  db_username = "snyk"
+  environment = "dev"
+  private_subnet = [module.subnet.subnet_id]
+  vpc_id = module.vpc.vpc_id
 }
 
 module "instance" {
@@ -47,3 +54,4 @@ module "instance" {
     Environment          = "dev"
   }
 }
+
