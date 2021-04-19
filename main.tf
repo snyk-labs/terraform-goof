@@ -40,7 +40,7 @@ module "storage" {
 }
 
 module "instance" {
-  source                 = "terraform-aws-modules/terraform-aws-ec2-instance.git"
+  source                 = "terraform-aws-modules/ec2-instance/aws"
   ami                    = var.ami
   instance_type          = "t2.micro"
   name                   = "example-server"
