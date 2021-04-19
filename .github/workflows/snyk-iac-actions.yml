@@ -35,11 +35,14 @@ jobs:
          snyk auth ${{ secrets.SNYK_TOKEN }}
 
       # Scan Terraform Plan
-    - name: Scan TF Plan
+    - name: Build TF Plan
       run: |
         terraform init
         terraform plan -out tf.plan 
         terraform show -json tf.plan > tf-plan.json
+        
+    - name: Scan TF Plan with Snyk
+      run: |        
         snyk iac test --experimental
 
       
