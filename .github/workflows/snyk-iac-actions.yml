@@ -5,6 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    #Setup Environment
+    - name: "Setup Node.js"
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    #Configure AWS CLI
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  
+
+    # Scan Terraform Files with Snyk Action
     - name: Run Snyk to check Terraform configuration file for issues
       continue-on-error: true
       uses: snyk/actions/iac@master
@@ -12,6 +27,18 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         file: .
-    - uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: snyk.sarif
+    
+      # Install and Authenticate Snyk CLI
+    - name: Install Snyk & Authenticate
+      run: |
+         sudo npm install -g snyk
+         snyk auth ${SNYK_TOKEN}
+
+      # Scan Terraform Plan
+    - name: Scan TF Plan
+      run: |
+        terraform plan -out tf.plan 
+        terraform show -json tf.plan > tf-plan.json
+        snyk iac test --experimental
+
+      
