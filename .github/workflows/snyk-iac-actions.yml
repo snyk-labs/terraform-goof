@@ -32,7 +32,7 @@ jobs:
     - name: Install Snyk & Authenticate
       run: |
          sudo npm install -g snyk
-         snyk auth ${secrets.SNYK_TOKEN}
+         snyk auth ${{ secrets.SNYK_TOKEN }}
 
       # Scan Terraform Plan
     - name: Scan TF Plan
