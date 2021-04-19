@@ -37,7 +37,7 @@ jobs:
       # Scan Terraform Plan
     - name: Scan TF Plan
       run: |
-        sudo terraform init
+        terraform init
         terraform plan -out tf.plan 
         terraform show -json tf.plan > tf-plan.json
         snyk iac test --experimental
