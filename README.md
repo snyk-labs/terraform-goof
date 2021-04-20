@@ -4,6 +4,10 @@ This repository contains a hello world example which demonstrates the Terraform 
 
 * Detecting CIS Benchmark issues for the AWS Terraform provider
 
+### Prerequisites
+
+* [Snyk Token](https://support.snyk.io/hc/en-us/articles/360004008258-Authenticate-the-CLI-with-your-account#UUID-4f46843c-174d-f448-cadf-893cfd7dd858_section-idm4557419555668831541902780562)
+* AWS API Key (Nothing is created in this demo)
 
 ## Snyk UI Projects
 
