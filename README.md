@@ -35,7 +35,11 @@ One thing which was recently added is the ability to scan the plan output.
 
 This can be done by running `snyk iac test tf-plan.json` while in the root directory of this repo.
 
-The plan output is a list of instructions used by terraform which defines what resources will be deployed, if the configuration were to be applied at that very moment. One thing companies will sometimes do, is create that plan output for when they are ready to deploy this configuration to each of their enviornments. 
+The plan output is a list of instructions used by terraform which defines what resources will be deployed, if the configuration were to be applied at that very moment. One thing companies will sometimes do, is create that plan output for when they are ready to deploy this configuration to each of their enviornments.
+
+With Snyk there are two different options we have for scanning the plan file.
+1. Resource changes `snyk iac test tf-plan.json --scan=resource-changes` - any resource changes including third party resources and variables that are different from the current state file (i.e What is currently deployed in your cloud environments).
+2. Planned values `snyk iac test tf-plan.json --scan=planned-values` - a full view of every resource including third party resources and variables regardless of the current state of deployed resources. (i.e If this configuration was deployed for the first time today, how secure would it be.)
 
 The plan output holds vulnerable information such as secret variables and access credentials and should typically not be commited into SCM.
 
