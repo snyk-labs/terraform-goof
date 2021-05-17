@@ -33,7 +33,7 @@ If you would like to specify a file, it can be added by with the filepath to the
 
 One thing which was recently added is the ability to scan the plan output. 
 
-This can be done by running `snyk iac test --experimental tf-plan.json` while in the root directory of this repo.
+This can be done by running `snyk iac test tf-plan.json` while in the root directory of this repo.
 
 The plan output is a list of instructions used by terraform which defines what resources will be deployed, if the configuration were to be applied at that very moment. One thing companies will sometimes do, is create that plan output for when they are ready to deploy this configuration to each of their enviornments. 
 
