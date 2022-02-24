@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.22.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-CC-AWS-426:
+    - 'tf-plan.json > resource > aws_instance[this["0"]] > disable_api_termination':
+        reason: Showing Example of ignored Vuln
+        expires: 2022-03-20T18:47:59.705Z
+        created: 2022-02-18T18:47:59.709Z
+patch: {}
