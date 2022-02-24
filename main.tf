@@ -36,7 +36,7 @@ module "storage" {
   db_username = "snyk"
   environment = "dev"
   vpc_id = module.vpc.vpc_id
-  private_subnet = [module.subnet.subnet_id_main, module.subnet.sbnet_id_secondary]
+  private_subnet = [module.subnet.subnet_id_main, module.subnet.subnet_id_secondary]
 }
 
 module "instance" {
