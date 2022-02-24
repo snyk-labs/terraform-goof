@@ -43,7 +43,7 @@ resource "aws_kms_key" "km_db_kms_key" {
 }
 
 resource "aws_db_instance" "km_db" {
-  name                      = "km_db_${var.environment}"
+  db_name                      = "km_db_${var.environment}"
   allocated_storage         = 20
   engine                    = "postgres"
   engine_version            = "10.6"
@@ -102,20 +102,20 @@ resource "aws_ssm_parameter" "km_ssm_db_name" {
 }
 
 resource "aws_s3_bucket" "km_blob_storage" {
-  bucket = "km-blob-storage-${var.environment}"
-  acl    = "${var.acl}"
+  bucket = "km-blob-storage-${var.environment}-demo"
   tags = merge(var.default_tags, {
     name = "km_blob_storage_${var.environment}"
   })
 }
 
 resource "aws_s3_bucket" "km_public_blob" {
-  bucket = "km-public-blob"
+  bucket = "km-public-blob-demo"
 }
 
 resource "aws_s3_bucket_public_access_block" "km_public_blob" {
   bucket = aws_s3_bucket.km_public_blob.id
 
+  ignore_public_acls = "${var.test}"
   block_public_acls   = false
   block_public_policy = false
 }

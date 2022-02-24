@@ -1,11 +1,12 @@
 variable "region" {
   type    = string
-  default = "us-east-1"
+  default = "us-west-1"
 }
 
 variable "ami" {
   type    = string
   description = "ami used for ec2 instance. example - ami-0a91cd140a1fc148a (Ubuntu 20.4 LTS)"
+  default = "ami-0a91cd140a1fc148a"
 }
 
 variable "access_key" {
@@ -18,5 +19,5 @@ variable "secret_key" {
 
 variable "s3_acl" {
   type = string
-  default = "public"
+  default = "public-read-write"
 }
