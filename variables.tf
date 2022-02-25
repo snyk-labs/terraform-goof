@@ -5,8 +5,8 @@ variable "region" {
 
 variable "ami" {
   type    = string
-  description = "ami used for ec2 instance. example - ami-0a91cd140a1fc148a (Ubuntu 20.4 LTS)"
-  default = "ami-0a91cd140a1fc148a"
+  description = "ami used for ec2 instance. example - ami-07336266b2c69c546 (terraform-goof-example-ami)"
+  default = "ami-07336266b2c69c546"
 }
 
 variable "access_key" {
