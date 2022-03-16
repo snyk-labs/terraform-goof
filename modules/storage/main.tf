@@ -108,6 +108,13 @@ resource "aws_s3_bucket" "snyk_storage" {
   })
 }
 
+resource "aws_s3_bucket" "my-new-undeployed-bucket" {
+  bucket = "snyk-storage-${var.environment}-demo"
+  tags = merge(var.default_tags, {
+    name = "snyk_blob_storage_${var.environment}"
+  })
+}
+
 resource "aws_s3_bucket" "snyk_public_storage" {
   bucket = "snyk-public-${var.environment}-demo"
 }
