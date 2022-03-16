@@ -1,9 +1,8 @@
 terraform {
-  cloud {
-    organization = "partner-snyk"
-
-    workspaces {
-      name = "terraform-goof-CLI"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
     }
   }
 }
@@ -44,9 +43,15 @@ module "storage" {
   acl = var.s3_acl
   db_password = "supersecret"
   db_username = "snyk"
-  environment = "dev"
+  environment = var.env
   vpc_id = module.vpc.vpc_id
   private_subnet = [module.subnet.subnet_id_main, module.subnet.subnet_id_secondary]
+}
+
+module "iam" {
+  source = "./modules/iam"
+
+  environment = var.env
 }
 
 module "instance" {
@@ -60,7 +65,7 @@ module "instance" {
 
   tags = {
     Terraform            = "true"
-    Environment          = "dev"
+    Environment          = var.env
   }
 }
 

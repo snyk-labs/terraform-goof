@@ -21,3 +21,8 @@ variable "s3_acl" {
   type = string
   default = "public-read-write"
 }
+
+variable "env" {
+  type = string
+  default = "dev"
+}
