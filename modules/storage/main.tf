@@ -109,13 +109,13 @@ resource "aws_s3_bucket" "snyk_storage" {
 }
 
 resource "aws_s3_bucket" "snyk_public_storage" {
-  bucket = "snyk-plublic-${var.environment}-demo"
+  bucket = "snyk-public-${var.environment}-demo"
 }
 
 resource "aws_s3_bucket_public_access_block" "snyk_public" {
   bucket = aws_s3_bucket.snyk_public_storage.id
 
-  ignore_public_acls = "${var.test}"
+  ignore_public_acls = false
   block_public_acls   = false
   block_public_policy = false
 }
