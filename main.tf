@@ -49,7 +49,6 @@ module "storage" {
   private_subnet = [module.subnet.subnet_id_main, module.subnet.subnet_id_secondary]
 }
 
-
 module "instance" {
   source                 = "terraform-aws-modules/ec2-instance/aws"
   ami                    = var.ami
