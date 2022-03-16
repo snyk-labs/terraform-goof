@@ -1,18 +1,18 @@
-resource "aws_db_subnet_group" "km_rds_subnet_grp" {
-  name       = "km_rds_subnet_grp_${var.environment}"
+resource "aws_db_subnet_group" "snyk_rds_subnet_grp" {
+  name       = "snyk_rds_subnet_grp_${var.environment}"
   subnet_ids = var.private_subnet
 
   tags = merge(var.default_tags, {
-    Name = "km_rds_subnet_grp_${var.environment}"
+    Name = "snyk_rds_subnet_grp_${var.environment}"
   })
 }
 
-resource "aws_security_group" "km_rds_sg" {
-  name   = "km_rds_sg"
+resource "aws_security_group" "snyk_rds_sg" {
+  name   = "snyk_rds_sg"
   vpc_id = var.vpc_id
 
   tags = merge(var.default_tags, {
-    Name = "km_rds_sg_${var.environment}"
+    Name = "snyk_rds_sg_${var.environment}"
   })
 
   # HTTP access from anywhere
@@ -32,88 +32,88 @@ resource "aws_security_group" "km_rds_sg" {
   }
 }
 
-resource "aws_kms_key" "km_db_kms_key" {
+resource "aws_kms_key" "snyk_db_kms_key" {
   description             = "KMS Key for DB instance ${var.environment}"
   deletion_window_in_days = 10
   enable_key_rotation     = true
 
   tags = merge(var.default_tags, {
-    Name = "km_db_kms_key_${var.environment}"
+    Name = "snyk_db_kms_key_${var.environment}"
   })
 }
 
-resource "aws_db_instance" "km_db" {
-  db_name                      = "km_db_${var.environment}"
+resource "aws_db_instance" "snyk_db" {
+  db_name                      = "snyk_db_${var.environment}"
   allocated_storage         = 20
   engine                    = "postgres"
-  engine_version            = "10.6"
-  instance_class            = "db.t3.medium"
+  engine_version            = "10.20"
+  instance_class            = "db.t3.micro"
   storage_type              = "gp2"
   password                  = var.db_password
   username                  = var.db_username
-  vpc_security_group_ids    = [aws_security_group.km_rds_sg.id]
-  db_subnet_group_name      = aws_db_subnet_group.km_rds_subnet_grp.id
-  identifier                = "km-db-${var.environment}"
+  vpc_security_group_ids    = [aws_security_group.snyk_rds_sg.id]
+  db_subnet_group_name      = aws_db_subnet_group.snyk_rds_subnet_grp.id
+  identifier                = "snyk-db-${var.environment}"
   storage_encrypted         = true
   skip_final_snapshot       = true
-  final_snapshot_identifier = "km-db-${var.environment}-db-destroy-snapshot"
-  kms_key_id                = aws_kms_key.km_db_kms_key.arn
+  final_snapshot_identifier = "snyk-db-${var.environment}-db-destroy-snapshot"
+  kms_key_id                = aws_kms_key.snyk_db_kms_key.arn
   tags = merge(var.default_tags, {
-    Name = "km_db_${var.environment}"
+    Name = "snyk_db_${var.environment}"
   })
 }
 
-resource "aws_ssm_parameter" "km_ssm_db_host" {
-  name        = "/km-${var.environment}/DB_HOST"
-  description = "Kai Monkey Database"
+resource "aws_ssm_parameter" "snyk_ssm_db_host" {
+  name        = "/snyk-${var.environment}/DB_HOST"
+  description = "Snyk Database"
   type        = "SecureString"
-  value       = aws_db_instance.km_db.endpoint
+  value       = aws_db_instance.snyk_db.endpoint
 
   tags = merge(var.default_tags, {})
 }
 
-resource "aws_ssm_parameter" "km_ssm_db_password" {
-  name        = "/km-${var.environment}/DB_PASSWORD"
-  description = "Kai Monkey Database Password"
+resource "aws_ssm_parameter" "snyk_ssm_db_password" {
+  name        = "/snyk-${var.environment}/DB_PASSWORD"
+  description = "Snyk Database Password"
   type        = "SecureString"
-  value       = aws_db_instance.km_db.password
+  value       = aws_db_instance.snyk_db.password
 
   tags = merge(var.default_tags, {})
 }
 
-resource "aws_ssm_parameter" "km_ssm_db_user" {
-  name        = "/km-${var.environment}/DB_USER"
-  description = "Kai Monkey Database Username"
+resource "aws_ssm_parameter" "snyk_ssm_db_user" {
+  name        = "/snyk-${var.environment}/DB_USER"
+  description = "Snyk Database Username"
   type        = "SecureString"
-  value       = aws_db_instance.km_db.username
+  value       = aws_db_instance.snyk_db.username
 
   tags = merge(var.default_tags, {})
 }
 
-resource "aws_ssm_parameter" "km_ssm_db_name" {
-  name        = "/km-${var.environment}/DB_NAME"
-  description = "Kai Monkey Database Name"
+resource "aws_ssm_parameter" "snyk_ssm_db_name" {
+  name        = "/snyk-${var.environment}/DB_NAME"
+  description = "Snyk Database Name"
   type        = "SecureString"
-  value       = aws_db_instance.km_db.name
+  value       = aws_db_instance.snyk_db.name
 
   tags = merge(var.default_tags, {
     environment = "${var.environment}"
   })
 }
 
-resource "aws_s3_bucket" "km_blob_storage" {
-  bucket = "km-blob-storage-${var.environment}-demo"
+resource "aws_s3_bucket" "snyk_storage" {
+  bucket = "snyk-storage-${var.environment}-demo"
   tags = merge(var.default_tags, {
-    name = "km_blob_storage_${var.environment}"
+    name = "snyk_blob_storage_${var.environment}"
   })
 }
 
-resource "aws_s3_bucket" "km_public_blob" {
-  bucket = "km-public-blob-demo"
+resource "aws_s3_bucket" "snyk_public_storage" {
+  bucket = "snyk-plublic-${var.environment}-demo"
 }
 
-resource "aws_s3_bucket_public_access_block" "km_public_blob" {
-  bucket = aws_s3_bucket.km_public_blob.id
+resource "aws_s3_bucket_public_access_block" "snyk_public" {
+  bucket = aws_s3_bucket.snyk_public_storage.id
 
   ignore_public_acls = "${var.test}"
   block_public_acls   = false

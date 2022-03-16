@@ -50,3 +50,18 @@ module "storage" {
 }
 
 
+module "instance" {
+  source                 = "terraform-aws-modules/ec2-instance/aws"
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  name                   = "example-server"
+
+  vpc_security_group_ids = [module.vpc.vpc_sg_id]
+  subnet_id              = module.subnet.subnet_id_main
+
+  tags = {
+    Terraform            = "true"
+    Environment          = "dev"
+  }
+}
+
