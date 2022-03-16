@@ -1,3 +1,13 @@
+terraform {
+  cloud {
+    organization = "partner-snyk"
+
+    workspaces {
+      name = "terraform-goof-CLI"
+    }
+  }
+}
+
 provider "aws" {
   region                      = var.region
   skip_credentials_validation = true
