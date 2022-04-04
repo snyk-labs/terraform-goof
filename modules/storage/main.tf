@@ -122,7 +122,7 @@ resource "aws_s3_bucket_public_access_block" "snyk_public" {
 resource "aws_s3_bucket_public_access_block" "snyk_private" {
   bucket = aws_s3_bucket.snyk_storage.id
 
-  ignore_public_acls = true
+  ignore_public_acls  = true
   block_public_acls   = true
   block_public_policy = true
-
+}
