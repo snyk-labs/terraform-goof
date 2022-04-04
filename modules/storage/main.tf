@@ -89,7 +89,6 @@ resource "aws_ssm_parameter" "snyk_ssm_db_user" {
 
   tags = merge(var.default_tags, {})
 }
-
 resource "aws_ssm_parameter" "snyk_ssm_db_name" {
   name        = "/snyk-${var.environment}/DB_NAME"
   description = "Snyk Database Name"
@@ -108,12 +107,12 @@ resource "aws_s3_bucket" "snyk_storage" {
   })
 }
 
-resource "aws_s3_bucket" "snyk_public_storage" {
+resource "aws_s3_bucket" "my-new-undeployed-bucket" {
   bucket = "snyk-public-${var.environment}-demo"
 }
 
 resource "aws_s3_bucket_public_access_block" "snyk_public" {
-  bucket = aws_s3_bucket.snyk_public_storage.id
+  bucket = aws_s3_bucket.my-new-undeployed-bucket.id
 
   ignore_public_acls = false
   block_public_acls   = false
@@ -126,4 +125,4 @@ resource "aws_s3_bucket_public_access_block" "snyk_private" {
   ignore_public_acls = true
   block_public_acls   = true
   block_public_policy = true
-}
+
