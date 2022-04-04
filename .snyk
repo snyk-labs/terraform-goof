@@ -3,8 +3,13 @@ version: v1.22.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-CC-TF-4:
-    - '* > input > resource > aws_s3_bucket[my-new-undeployed-bucket]':
-        reason: Showing Example of ignored Vuln
+    - '*':
+        reason: Showing Example of ignored vuln for all occurances
         expires: 2024-03-20T18:47:59.705Z
         created: 2022-02-18T18:47:59.709Z
+  SNYK-CC-TF-98:
+      - 'modules/storage/main.tf > resource > aws_s3_bucket_public_access_block[snyk_private] > restrict_public_buckets':
+          reason: Showing Example of ignored vuln for specific file and resource
+          expires: 2024-03-20T18:47:59.705Z
+          created: 2022-02-18T18:47:59.709Z
 patch: {}
