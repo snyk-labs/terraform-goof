@@ -43,7 +43,7 @@ resource "aws_kms_key" "snyk_db_kms_key" {
 }
 
 resource "aws_db_instance" "snyk_db" {
-  name                      = "snyk_db_${var.environment}"
+  db_name                      = "snyk_db_${var.environment}"
   allocated_storage         = 20
   engine                    = "postgres"
   engine_version            = "10.20"
