@@ -1,3 +1,5 @@
+[![Known Vulnerabilities](https://snyk.io/test/github/secpapa/terraform-goof/badge.svg)]
+
 # Snyk Infrastructure as Code Demo
 
 This repository contains a hello world example which demonstrates the Terraform features of Snyk Infrastructure as code. In particular:
