@@ -43,7 +43,7 @@ resource "aws_kms_key" "snyk_db_kms_key" {
 }
 
 resource "aws_db_instance" "snyk_db" {
-  name                      = "snyk_db_${var.environment}"
+  db_name                      = "snyk_db_${var.environment}"
   allocated_storage         = 20
   engine                    = "postgres"
   engine_version            = "10.20"
@@ -93,7 +93,7 @@ resource "aws_ssm_parameter" "snyk_ssm_db_name" {
   name        = "/snyk-${var.environment}/DB_NAME"
   description = "Snyk Database Name"
   type        = "SecureString"
-  value       = aws_db_instance.snyk_db.name
+  value       = aws_db_instance.snyk_db.db_name
 
   tags = merge(var.default_tags, {
     environment = "${var.environment}"
@@ -117,6 +117,7 @@ resource "aws_s3_bucket_public_access_block" "snyk_public" {
   ignore_public_acls = var.public_var_test
   block_public_acls   = var.public_var_test
   block_public_policy = var.public_var_test
+  restrict_public_buckets = var.public_var_test
 }
 
 resource "aws_s3_bucket_public_access_block" "snyk_private" {
@@ -125,4 +126,5 @@ resource "aws_s3_bucket_public_access_block" "snyk_private" {
   ignore_public_acls  = true
   block_public_acls   = true
   block_public_policy = true
+  restrict_public_buckets = true
 }

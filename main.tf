@@ -1,20 +1,20 @@
 terraform {
-  cloud {
-    organization = "partner-snyk"
+#   cloud {
+#     organization = "snyk"
 
-    workspaces {
-      name = "terraform-goof-CLI"
-    }
-  }
+#     workspaces {
+#       name = "terraform-goof-CLI"
+#     }
+#   }
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      # version = "~> 3.0.0"
     }
   }
-}
 
+}
 provider "aws" {
   region                      = var.region
   skip_credentials_validation = true
@@ -62,11 +62,15 @@ module "iam" {
   environment = var.env
 }
 
-module "instance" {
+
+module "ec2-instance" {
   source                 = "terraform-aws-modules/ec2-instance/aws"
+  version                = "4.3.0"
   ami                    = var.ami
   instance_type          = "t2.micro"
   name                   = "example-server"
+
+
 
   vpc_security_group_ids = [module.vpc.vpc_sg_id]
   subnet_id              = module.subnet.subnet_id_main
