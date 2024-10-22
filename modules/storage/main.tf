@@ -43,7 +43,7 @@ resource "aws_kms_key" "snyk_db_kms_key" {
 }
 
 resource "aws_db_instance" "snyk_db" {
-  name                      = "snyk_db_${var.environment}"
+  identifier                = "snyk-db-${var.environment}"
   allocated_storage         = 20
   engine                    = "postgres"
   engine_version            = "10.20"
@@ -53,7 +53,6 @@ resource "aws_db_instance" "snyk_db" {
   username                  = var.db_username
   vpc_security_group_ids    = [aws_security_group.snyk_rds_sg.id]
   db_subnet_group_name      = aws_db_subnet_group.snyk_rds_subnet_grp.id
-  identifier                = "snyk-db-${var.environment}"
   storage_encrypted         = true
   skip_final_snapshot       = true
   final_snapshot_identifier = "snyk-db-${var.environment}-db-destroy-snapshot"
@@ -93,7 +92,7 @@ resource "aws_ssm_parameter" "snyk_ssm_db_name" {
   name        = "/snyk-${var.environment}/DB_NAME"
   description = "Snyk Database Name"
   type        = "SecureString"
-  value       = aws_db_instance.snyk_db.name
+  value       = aws_db_instance.snyk_db.db_name 
 
   tags = merge(var.default_tags, {
     environment = "${var.environment}"
