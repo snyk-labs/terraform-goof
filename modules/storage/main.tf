@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_db_subnet_group" "snyk_rds_subnet_grp" {
   name       = "snyk_rds_subnet_grp_${var.environment}"
   subnet_ids = var.private_subnet
@@ -101,14 +103,14 @@ resource "aws_ssm_parameter" "snyk_ssm_db_name" {
 }
 
 resource "aws_s3_bucket" "snyk_storage" {
-  bucket = "snyk-storage-${var.environment}-demo"
+  bucket = "snyk-storage-${var.environment}-${replace(var.region, "-", "")}-${data.aws_caller_identity.current.account_id}-demo"
   tags = merge(var.default_tags, {
     name = "snyk_blob_storage_${var.environment}"
   })
 }
 
 resource "aws_s3_bucket" "my-new-undeployed-bucket" {
-  bucket = "snyk-public-${var.environment}-demo"
+  bucket = "snyk-public-${var.environment}-${replace(var.region, "-", "")}-${data.aws_caller_identity.current.account_id}-demo"
 }
 
 resource "aws_s3_bucket_public_access_block" "snyk_public" {
