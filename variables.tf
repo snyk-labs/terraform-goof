@@ -10,11 +10,20 @@ variable "ami" {
 }
 
 variable "access_key" {
+  description = "AWS Access Key"
   type    = string
 }
 
 variable "secret_key" {
+  description = "AWS Secret Key"
   type    = string
+}
+
+variable "session_token" {
+  description = "AWS session token for temporary credentials"
+  type        = string
+  sensitive   = true
+  default     = null
 }
 
 variable "s3_acl" {
