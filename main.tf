@@ -5,6 +5,7 @@ provider "aws" {
   skip_metadata_api_check     = true
   access_key                  = var.access_key
   secret_key                  = var.secret_key
+  token                       = var.session_token
 }
 
 resource "aws_iam_account_password_policy" "strict" {
@@ -35,6 +36,7 @@ module "storage" {
   db_password = "supersecret"
   db_username = "snyk"
   environment = var.env
+  region = var.region
   vpc_id = module.vpc.vpc_id
   private_subnet = [module.subnet.subnet_id_main, module.subnet.subnet_id_secondary]
 }
